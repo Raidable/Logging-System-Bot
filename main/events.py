@@ -20,12 +20,10 @@ from discord.ext import commands
 ###########
 ###################################
 
-#------PER EFFETTUARE MODIFICHE CONTATTARE RAID------
 
 dataeora = time.strftime("%d %b %Y")
 dataeora = dataeora.upper()
 
-#---CONFIG FETCH---
 with open("../config.json") as f:
     f = json.load(f)
     
