@@ -99,20 +99,20 @@ async def on_member_join(member):
         for row in c.fetchall():
             idstanzalog = row[0]
                 
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         if (member.bot == False):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è **entrato** nel server!\n\n**ID** » {member.id}\n\n**Entrato il** » {dataeora}\n**Creazione account** » {member.created_at} UTC")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
         elif (member.bot == True):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è **entrato** nel server!\n\n**ID** » {member.id}\n\n**Entrato il** » {dataeora}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
         elif (member.system == True):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è **entrato** nel server!\n\n**ID** » {member.id}\n\n**Entrato il** » {dataeora}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
 
     print(f"{member.name} è appena entrato nel server {member.guild.name}, orario UTC: {member.joined_at}, id: {member.id}")
@@ -131,91 +131,91 @@ async def on_member_remove(member):
     for row in c.fetchall():
         idstanzalog = row[0]
                 
-    idstanzalogdb = client.get_channel(idstanzalog)
+    logchannelid = client.get_channel(idstanzalog)
 
     async for entry in member.guild.audit_logs(limit=1, oldest_first=False):
         action = ('{0.action}'.format(entry))
-        trovakick = action.find("kick") 
-        trovaban = action.find("ban")
+        findkick = action.find("kick") 
+        findban = action.find("ban")
 
-        nomemembro = ('{0.target.mention}'.format(entry))
-        idmembro = ('{0.target.id}'.format(entry))
-        personachehaeffettuatoazione = ('{0.user.mention}'.format(entry))
+        username = ('{0.target.mention}'.format(entry))
+        userId = ('{0.target.id}'.format(entry))
+        userAction = ('{0.user.mention}'.format(entry))
         motivobanokick = ('{0.reason}'.format(entry))
 
-    if (trovakick != -1):
+    if (findkick != -1):
 
         if (member.bot == False):
             if (motivobanokick == "None"):
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **espulso**!\n\n**Espulso da** » {personachehaeffettuatoazione}\n**Motivo** » Non specificato\n\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **espulso**!\n\n**Espulso da** » {userAction}\n**Motivo** » Non specificato\n\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
             else:
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **espulso**!\n\n**Espulso da** » {personachehaeffettuatoazione}\n**Motivo** » {motivobanokick}\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **espulso**!\n\n**Espulso da** » {userAction}\n**Motivo** » {motivobanokick}\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
         elif (member.bot == True):
             if (motivobanokick == "None"):
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **espulso**!\n\n**Espulso da** » {personachehaeffettuatoazione}\n**Motivo** » Non specificato\n\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **espulso**!\n\n**Espulso da** » {userAction}\n**Motivo** » Non specificato\n\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
             else:
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **espulso**!\n\n**Espulso da** » {personachehaeffettuatoazione}\n**Motivo** » {motivobanokick}\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **espulso**!\n\n**Espulso da** » {userAction}\n**Motivo** » {motivobanokick}\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
         elif (member.system == True):
             if (motivobanokick == "None"):
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **espulso**!\n\n**Espulso da** » {personachehaeffettuatoazione}\n**Motivo** » Non specificato\n\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **espulso**!\n\n**Espulso da** » {userAction}\n**Motivo** » Non specificato\n\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
             else:
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **espulso**!\n\n**Espulso da** » {personachehaeffettuatoazione}\n**Motivo** » {motivobanokick}\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **espulso**!\n\n**Espulso da** » {userAction}\n**Motivo** » {motivobanokick}\n**Espulso il** » {dataeora}\n\n**ID Utente** » {member.id}\n")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
 
 
-    elif (trovaban != -1):
+    elif (findban != -1):
 
         if (member.bot == False):
             if (motivobanokick == "None"):
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **bannato**!\n\n**Bannato da** » {personachehaeffettuatoazione}\n**Motivo** » Non specificato\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {idmembro}")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **bannato**!\n\n**Bannato da** » {userAction}\n**Motivo** » Non specificato\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {userId}")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **bannato** dal server!\n\n**Bannato il** » {dataeora}\n**ID** » {member.id}\n")
             else:
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **bannato**!\n\n**Bannato da** » {personachehaeffettuatoazione}\n**Motivo** » {motivobanokick}\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {idmembro}")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è stato **bannato**!\n\n**Bannato da** » {userAction}\n**Motivo** » {motivobanokick}\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {userId}")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **bannato** dal server!\n\n**Bannato il** » {dataeora}\n**ID** » {member.id}\n")
         elif (member.bot == True):
             if (motivobanokick == "None"):
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **bannato**!\n\n**Bannato da** » {personachehaeffettuatoazione}\n**Motivo** » Non specificato\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {idmembro}")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **bannato**!\n\n**Bannato da** » {userAction}\n**Motivo** » Non specificato\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {userId}")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
             else:
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **bannato**!\n\n**Bannato da** » {personachehaeffettuatoazione}\n**Motivo** » {motivobanokick}\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {idmembro}")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è stato **bannato**!\n\n**Bannato da** » {userAction}\n**Motivo** » {motivobanokick}\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {userId}")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **espulso** dal server!\n\n**Espulso il** » {dataeora}\n**ID** » {member.id}\n")
         elif (member.system == True):
             if (motivobanokick == "None"):
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **bannato**!\n\n**Bannato da** » {personachehaeffettuatoazione}\n**Motivo** » Non specificato\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {idmembro}")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **bannato**!\n\n**Bannato da** » {userAction}\n**Motivo** » Non specificato\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {userId}")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **bannato** dal server!\n\n**Bannato il** » {dataeora}\n**ID** » {member.id}\n")
             else:
-                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **bannato**!\n\n**Bannato da** » {personachehaeffettuatoazione}\n**Motivo** » {motivobanokick}\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {idmembro}")
-                await idstanzalogdb.send(embed=embed)
+                embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è stato **bannato**!\n\n**Bannato da** » {userAction}\n**Motivo** » {motivobanokick}\n\n**Bannato il** » {dataeora}\n\n**ID Utente** » {userId}")
+                await logchannelid.send(embed=embed)
                 print(f"{member.name} è stato **bannato** dal server!\n\n**Bannato il** » {dataeora}\n**ID** » {member.id}\n")
 
     else:
         if (member.bot == False):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{member.mention} è **uscito** dal server!\n\n**Uscito il** » {dataeora}\n**ID** » {member.id}\n")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
             print(f"{member.name} è appena uscito dal server {member.guild.name}, uscito il: {dataeora}, ID: {member.id}")
         elif (member.bot == True):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il **BOT** {member.mention} è **uscito** dal server!\n\n**Uscito il** » {dataeora}\n**ID** » {member.id}\n")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
             print(f"{member.name} è appena uscito dal server {member.guild.name}, uscito il: {dataeora}, ID: {member.id}")
         elif (member.system == True):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"L'**User System**{member.mention} è **uscito** dal server!\n\n**Uscito il** » {dataeora}\n**ID** » {member.id}\n")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
             print(f"{member.name} è appena uscito dal server {member.guild.name}, uscito il: {dataeora}, ID: {member.id}")
 
     c.close()
@@ -233,7 +233,7 @@ async def on_guild_channel_create(channel):
         for row in c.fetchall():
             idstanzalog = row[0]
                     
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
         
         async for entry in channel.guild.audit_logs(limit=1, action=discord.AuditLogAction.channel_create, oldest_first=False):
             creatorestanza = ('{0.user.mention}'.format(entry))
@@ -241,20 +241,20 @@ async def on_guild_channel_create(channel):
 
         if (str(channel.type) == "text"):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"E' stato **creato** un canale **__testuale__** chiamato » {channel.mention}\n\n**Creatore** » {creatorestanza}\n**Creato il** » {dataeora}\n\n**ID Canale** » {idstanza}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
         elif (str(channel.type) == "voice"):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"E' stato **creato** un canale **__vocale__** chiamato » {channel}\n**Creatore** » {creatorestanza}\n**Creato il** » {dataeora}\n\n**ID Canale** » {idstanza}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
         elif (str(channel.type) == "news"):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"E' stato **creato** un canale **__annunci__** chiamato » {channel.mention}**Creatore** » {creatorestanza}\n**Creato il** » {dataeora}\n\n**ID Canale** » {idstanza}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
 
         c.close()
         db.close()
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
     
 
 @client.event
@@ -268,7 +268,7 @@ async def on_guild_channel_delete(channel):
         for row in c.fetchall():
             idstanzalog = row[0]
         
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         async for entry in channel.guild.audit_logs(limit=1, action=discord.AuditLogAction.channel_delete, oldest_first=False):
             eliminatorestanza = ('{0.user.mention}'.format(entry))
@@ -277,13 +277,13 @@ async def on_guild_channel_delete(channel):
 
         if (str(channel.type) == "text"):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"E' stato **eliminato** un canale **__testuale__** chiamato » #{nomestanzaeliminata}\n\n**Eliminatore** » {eliminatorestanza}\n**Eliminato il** » {dataeora}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
         elif (str(channel.type) == "voice"):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"E' stato **eliminato** un canale **__vocale__** chiamato » #{nomestanzaeliminata}\n\n**Eliminatore** » {eliminatorestanza}\n**Eliminato il** » {dataeora}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
         elif (str(channel.type) == "news"):
             embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"E' stato **eliminato** un canale **__annunci__** chiamato » #{nomestanzaeliminata}\n\n**Eliminatore** » {eliminatorestanza}\n**Eliminato il** » {dataeora}")
-            await idstanzalogdb.send(embed=embed)
+            await logchannelid.send(embed=embed)
 
 
         c.close()
@@ -291,7 +291,7 @@ async def on_guild_channel_delete(channel):
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
 
 @client.event
@@ -306,26 +306,26 @@ async def on_guild_role_create(role):
         for row in c.fetchall():
             idstanzalog = row[0]
                     
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         async for entry in role.guild.audit_logs(limit=1, action=discord.AuditLogAction.role_create, oldest_first=False):
-            creatoreruolo =  ('{0.user.mention}'.format(entry))
-            idruolo = ('{0.target.id}'.format(entry))
+            roleCreator =  ('{0.user.mention}'.format(entry))
+            roleid = ('{0.target.id}'.format(entry))
 
 
         if (role.managed == True):
-            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un nuovo **ruolo**!\n\n**Creatore** » {role.name} | Integrazione\n**Creato il** » {dataeora}\n\n**ID Ruolo** » {idruolo}\n")
-            await idstanzalogdb.send(embed=embed)
+            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un nuovo **ruolo**!\n\n**Creatore** » {role.name} | Integrazione\n**Creato il** » {dataeora}\n\n**ID Ruolo** » {roleid}\n")
+            await logchannelid.send(embed=embed)
         else:
-            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un nuovo **ruolo**!\n\n**Creatore** » {creatoreruolo}\n**Creato il** » {dataeora}\n\n**ID Ruolo** » {idruolo}")
-            await idstanzalogdb.send(embed=embed)
+            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un nuovo **ruolo**!\n\n**Creatore** » {roleCreator}\n**Creato il** » {dataeora}\n\n**ID Ruolo** » {roleid}")
+            await logchannelid.send(embed=embed)
 
         c.close()
         db.close()
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
 
 @client.event
@@ -340,19 +340,19 @@ async def on_guild_role_delete(role):
         for row in c.fetchall():
             idstanzalog = row[0]
                             
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         async for entry in role.guild.audit_logs(limit=1, action=discord.AuditLogAction.role_delete, oldest_first=False):
             print ('{0.user.mention} ha eliminato {0.before.name}'.format(entry))
-            eliminatoreruolo =  ('{0.user.mention}'.format(entry))
-            nomeruoloeliminato = ('{0.before.name}'.format(entry))
+            elminatorRole =  ('{0.user.mention}'.format(entry))
+            eliminatedRoleName = ('{0.before.name}'.format(entry))
 
-            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **eliminato** il **ruolo** » {nomeruoloeliminato}!\n\n**Eliminatore** » {eliminatoreruolo}\n**Eliminato il** » {dataeora}")
-            await idstanzalogdb.send(embed=embed)
+            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **eliminato** il **ruolo** » {eliminatedRoleName}!\n\n**Eliminatore** » {elminatorRole}\n**Eliminato il** » {dataeora}")
+            await logchannelid.send(embed=embed)
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
     
     c.close()
     db.close()
@@ -371,14 +371,14 @@ async def on_guild_unavailable(guild):
         for row in c.fetchall():
             idstanzalog = row[0]
                                 
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Attualmente i **servers** di **Discord** stanno avendo **problemi**.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     c.close()
     db.close()
@@ -396,18 +396,18 @@ async def on_member_unban(guild, user):
         for row in c.fetchall():
             idstanzalog = row[0]
                                 
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         async for entry in guild.audit_logs(limit=1, action=discord.AuditLogAction.unban, oldest_first=False):
             sbannatoda = ('{0.user.mention}'.format(entry))
 
 
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"{user.mention} è stato **sbannato**!\n\n**Sbannato da** » {sbannatoda}\n**Sbannato il** » {dataeora}\n\n**ID Utente** » {user.id}")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     c.close()
     db.close()
@@ -424,7 +424,7 @@ async def on_invite_create(invite):
         for row in c.fetchall():
             idstanzalog = row[0]
                                 
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         if (invite.max_uses == 0):
             invite.max_uses = "Nessun limite"
@@ -432,34 +432,34 @@ async def on_invite_create(invite):
         if (invite.max_age == 0):
             if (invite.temporary == True):
                 embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » Mai\n**__Invito temporaneo__**\n\n**ID Creatore** » {invite.inviter.id}")
-                await idstanzalogdb.send(embed=embed)
+                await logchannelid.send(embed=embed)
             else:
                 embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » Mai\n\n**ID Utente** » {invite.inviter.id}")
-                await idstanzalogdb.send(embed=embed)
+                await logchannelid.send(embed=embed)
         elif (invite.max_age != 0):
             if (invite.temporary == True):
                 embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » {invite.max_age // 60} (*s*)\n**__Invito temporaneo__**\n\n**ID Utente** » {invite.inviter.id}")
-                await idstanzalogdb.send(embed=embed)
+                await logchannelid.send(embed=embed)
             else:
                 if (invite.max_age == 1800):
                     embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » 30 minuti\n\n**ID Utente** » {invite.inviter.id}")
-                    await idstanzalogdb.send(embed=embed)
+                    await logchannelid.send(embed=embed)
                 elif (invite.max_age == 3600):
                     embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » 1 ora\n\n**ID Utente** » {invite.inviter.id}")
-                    await idstanzalogdb.send(embed=embed)
+                    await logchannelid.send(embed=embed)
                 elif(invite.max_age == 21600):
                     embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » 6 ore\n\n**ID Utente** » {invite.inviter.id}")
-                    await idstanzalogdb.send(embed=embed)
+                    await logchannelid.send(embed=embed)
                 elif (invite.max_age == 43200):
                     embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » 12 ore\n\n**ID Utente** » {invite.inviter.id}")
-                    await idstanzalogdb.send(embed=embed)
+                    await logchannelid.send(embed=embed)
                 elif (invite.max_age == 86400):
                     embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **creato** un **invito**!\n\n**Creato da** » {invite.inviter.mention}\n**Creato il** » {dataeora}\n\n**Usi Massimi** » {invite.max_uses}\n**Scadenza** » 1 giorno\n\n**ID Utente** » {invite.inviter.id}")
-                    await idstanzalogdb.send(embed=embed)
+                    await logchannelid.send(embed=embed)
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     c.close()
     db.close()
@@ -477,18 +477,18 @@ async def on_invite_delete(invite):
         for row in c.fetchall():
             idstanzalog = row[0]
                                     
-        idstanzalogdb = client.get_channel(idstanzalog)
+        logchannelid = client.get_channel(idstanzalog)
 
         async for entry in invite.guild.audit_logs(limit=1, action=discord.AuditLogAction.invite_delete, oldest_first=False):
             eliminatoreinvito =  ('{0.user.mention}'.format(entry))
 
 
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **eliminato** un **invito**!\n\n**Eliminato da** » {eliminatoreinvito}\n**Eliminato il** » {dataeora}")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     except:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore** sconosciuto.")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     c.close()
     db.close()
@@ -506,7 +506,7 @@ async def on_guild_role_update(before: discord.Role, after: discord.Role):
     for row in c.fetchall():
         idstanzalog = row[0]
                                     
-    idstanzalogdb = client.get_channel(idstanzalog)
+    logchannelid = client.get_channel(idstanzalog)
 
     async for entry in before.guild.audit_logs(limit=1, action=discord.AuditLogAction.role_update, oldest_first=False):
         modificatoreruolo = ('{0.user.mention}'.format(entry))
@@ -768,10 +768,10 @@ async def on_guild_role_update(before: discord.Role, after: discord.Role):
 
     if (cambionomeavvenuto == False):
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **modificato** un **ruolo**!\n\n**Nome ruolo** » {after.mention}\n\n**Modificato da** » {modificatoreruolo}\n**Modificato il** » {dataeora}\n**Numero modifiche** » {len(cambiamenti)}\n\n{separatore.join(cambiamenti)}")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
     else:
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **modificato** un **ruolo**!\n\n**Modificato da** » {modificatoreruolo}\n**Modificato il** » {dataeora}\n**Numero modifiche** » {len(cambiamenti)}\n\n{separatore.join(cambiamenti)}")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     c.close()
     db.close()
@@ -801,7 +801,7 @@ async def on_guild_update(before: discord.Guild, after: discord.Guild):
     for row in c.fetchall():
         idstanzalog = row[0]
 
-    idstanzalogdb = client.get_channel(idstanzalog)
+    logchannelid = client.get_channel(idstanzalog)
 
 
     async for entry in before.audit_logs(limit=1, action=discord.AuditLogAction.guild_update, oldest_first=False):
@@ -1050,7 +1050,7 @@ async def on_guild_update(before: discord.Guild, after: discord.Guild):
 
     if (len(cambiamenti) != 0):
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"É stato **modificato** il **server**!\n\n**Modificato da** » {modificatore}\n**Modificato il** » {dataeora}\n**Modifiche apportate** » {len(cambiamenti)}\n\n{separatore.join(cambiamenti)}")
-        await idstanzalogdb.send(embed=embed)
+        await logchannelid.send(embed=embed)
 
     c.close()
     db.close()
@@ -1065,30 +1065,7 @@ async def on_voice_state_update(member, before, after):
     for row in c.fetchall():
         idstanzalog = row[0]
 
-    idstanzalogdb = client.get_channel(idstanzalog)
+    logchannelid = client.get_channel(idstanzalog)
 
     if (before.mute != after.mute):
-        await idstanzalogdb.send(f"{member.mention} è stato mutato da uno staffer!")
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        await logchannelid.send(f"{member.mention} è stato mutato da uno staffer!")
