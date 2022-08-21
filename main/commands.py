@@ -10,14 +10,12 @@ from discord.ext import commands
 
 
     
-#Comando ping
 @client.command(enabled=1)
 async def ping(ctx):
     embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"**Ping Log** » ``{round(client.latency * 1000)}ms``")
     await ctx.send(embed=embed)
 
 
-#Comando prefix
 @client.command(aliases=['prefisso'], enabled=1)
 async def prefix(ctx):
     embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"**Il prefisso di Log è** » ``{PREFIX}``")
@@ -30,7 +28,6 @@ async def setup(ctx):
     embed.set_footer(text=f"Made by Raid » {DISCORDINVITE} ", icon_url=f"{RAIDIMAGE}")
     
     await ctx.send(embed=embed) 
-
 
 
 
@@ -61,54 +58,6 @@ async def impostacanale(ctx, stanza: discord.TextChannel):
         embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore**, assicurati di aver eseguito il comando **correttamente**!")
         await ctx.send(embed=embed)
     
-
-@client.command(enabled=1) 
-@commands.has_permissions(manage_guild=True)
-async def cambiacanale(ctx, vecchiastanza: discord.TextChannel, nuovastanza: discord.TextChannel):
-    idvecchiastanzadapulire = (f"{vecchiastanza.mention}")
-    idnuovastanzadapulire = (f"{nuovastanza.mention}")
-
-    puliziavecchioid = idvecchiastanzadapulire.replace('<', "")
-    puliziavecchioid2 = puliziavecchioid.replace('>', "")
-    vecchioidpulito = puliziavecchioid2.replace('#', "")   #ID VECCHIO PULITO
-
-    pulizianuovoid = idnuovastanzadapulire.replace('<', "")
-    pulizianuovoid2 = pulizianuovoid.replace('>', "")
-    nuovoidpulito = pulizianuovoid2.replace('#', "") #ID NUOVO PULITO
-
-    db = sqlite3.connect(f"{DIRECTORYDATABASE}")
-
-    #Fetch dell'id della stanza in cui vengono inviati i logs (da database)
-    c = db.cursor()
-    c.execute(f"SELECT idstanzalog FROM discordlog WHERE guild_id={ctx.guild.id}")
-
-    for row in c.fetchall():
-        idstanzalogdb = row[0]
-
-    try:
-        if (str(idstanzalogdb) == vecchioidpulito):
-            db.execute(f"UPDATE discordlog SET idstanzalog={nuovoidpulito} WHERE idstanzalog={vecchioidpulito} AND guild_id={ctx.guild.id}")
-            db.execute(f"UPDATE discordlog SET nomestanzalog='{nuovastanza}' WHERE nomestanzalog='{vecchiastanza}' AND guild_id={ctx.guild.id}")
-            db.commit()
-            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Canale **Log** cambiato **correttamente**!")
-            await ctx.send(embed=embed)
-            c.close()
-            db.close()
-        elif (str(idstanzalogdb) != vecchioidpulito):
-            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Il primo canale menzionato **deve** essere il canale dei **logs**!")
-            await ctx.send(embed=embed)
-    except sqlite3.IntegrityError:
-            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore**, assicurati di aver eseguito il comando **correttamente**!")
-            await ctx.send(embed=embed)
-    except sqlite3.OperationalError:
-            embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore**, ricorda di **taggare** in modo corretto i canali dei **log**!")
-            await ctx.send(embed=embed)
-    except UnboundLocalError:
-        embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Attualmente **non** è impostato un canale per i **logs**.")
-        await ctx.send(embed=embed)
-    except:
-        embed = discord.Embed(colour=discord.Colour(0xD40D29), description=f"Si è verificato un **errore**, assicurati di aver eseguito il comando **correttamente**!")
-        await ctx.send(embed=embed)
 
 
 @client.command()
